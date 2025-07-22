@@ -7,8 +7,30 @@ export default function Greeter() {
     name: "greeter",
     cssClasses: ["greeter"],
     application: app,
-    // child: new Gtk.Label({ label: "Hello World", visible: true }),
-    child: <label label="Hello World!!!" />,
+    child: (
+      <box orientation={Gtk.Orientation.HORIZONTAL} halign={Gtk.Align.CENTER}>
+        <box hexpand />
+        <box orientation={Gtk.Orientation.VERTICAL} valign={Gtk.Align.CENTER}>
+          <box vexpand />
+          <box
+            cssClasses={["user-input"]}
+            orientation={Gtk.Orientation.HORIZONTAL}
+          >
+            <label label="Username" />
+            <entry placeholderText="Username" />
+          </box>
+          <box
+            cssClasses={["user-password"]}
+            orientation={Gtk.Orientation.HORIZONTAL}
+          >
+            <label label="Password" />
+            <entry placeholderText="Password" />
+          </box>
+          <box hexpand />
+        </box>
+        <box vexpand />
+      </box>
+    ),
   });
   win.show();
   return win;
