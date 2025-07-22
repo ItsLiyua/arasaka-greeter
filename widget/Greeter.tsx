@@ -7,7 +7,8 @@ export default function Greeter() {
     name: "greeter",
     cssClasses: ["greeter"],
     application: app,
-    child: new Gtk.Label({ label: "Hello World", visible: true }),
+    // child: new Gtk.Label({ label: "Hello World", visible: true }),
+    child: <label label="Hello World!!!" />,
   });
   win.show();
   return win;
