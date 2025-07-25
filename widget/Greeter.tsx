@@ -1,12 +1,26 @@
+import { createState } from "ags";
 import app from "ags/gtk4/app";
-import Greet from "gi://AstalGreet?version=0.1";
 import Gtk from "gi://Gtk?version=4.0";
+import Greet from "gi://AstalGreet?version=0.1";
 
-function login(username: string, password: string, cmd: string) {
-  Greet.login(username, password, cmd, (_, res) => {
+const [username, setUsername] = createState("");
+const [password, setPassword] = createState("");
+const [command, setCommand] = createState("");
+
+function login() {
+  const user = username.get();
+  const pass = password.get();
+  const cmd = command.get();
+
+  if (user == null || user.trim().length == 0) return;
+  if (pass == null || pass.trim().length == 0) return;
+  if (cmd == null || cmd.trim().length == 0) return;
+
+  Greet.login(user, pass, cmd, (_, res) => {
     try {
       Greet.login_finish(res);
     } catch (err) {
+      console.log("Error while logging in");
       printerr(err);
     }
   });
@@ -25,13 +39,32 @@ export default function Greeter() {
           <label label="logo" />
           <centerbox orientation={Gtk.Orientation.VERTICAL}>
             <box $type="center" orientation={Gtk.Orientation.VERTICAL}>
-              <entry placeholderText="Authorized User" />
-              <entry placeholderText="Password" />
+              <entry
+                placeholderText="Username"
+                text={username}
+                onNotifyText={(self) => setUsername(self.text)}
+                onActivate={login}
+              />
+              <entry
+                placeholderText="Password"
+                text={password}
+                visibility={false}
+                onNotifyText={(self) => setPassword(self.text)}
+                onActivate={login}
+              />
             </box>
           </centerbox>
         </box>
         <centerbox $type="end" orientation={Gtk.Orientation.VERTICAL}>
-          <label $type="end" label="logo stuff" />
+          <box $type="end" orientation={Gtk.Orientation.HORIZONTAL}>
+            <entry
+              placeholderText="Command"
+              text={command}
+              onNotifyText={(self) => setCommand(self.text)}
+              onActivate={login}
+            />
+            <label label="logo stuff" />
+          </box>
         </centerbox>
       </centerbox>
     ),

@@ -15,19 +15,24 @@ stdenv.mkDerivation rec {
   version = "1.0";
   src = ../.;
 
+  extraPackages = with ags.packages.${system}; [
+    io
+    astal4
+    greet
+    gjs
+  ];
+
   nativeBuildInputs = [
     wrapGAppsHook
     gobject-introspection
     ags.packages.${system}.default
   ];
-  buildInputs = with ags.packages.${system}; [
-    io
-    astal4
-    greet
-    gjs
+
+  buildInputs = [
     libadwaita
     libsoup_3
-  ];
+  ]
+  ++ extraPackages;
 
   installPhase = ''
     runHook preInstall

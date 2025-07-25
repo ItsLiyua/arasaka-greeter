@@ -32,11 +32,7 @@
         devShells.default = pkgs.mkShell {
           buildInputs = [
             (ags.packages.${system}.default.override {
-              extraPackages = with ags.packages.${system}; [
-                io
-                astal4
-                greet
-              ];
+              extraPackages = self.packages.${system}.default.extraPackages;
             })
           ];
         };
