@@ -25,6 +25,10 @@
       in
       {
         packages.default = pkgs.callPackage ./nix/package.nix { inherit ags; };
+        apps.default = {
+          type = "app";
+          program = "${self.packages.${system}.default}/bin/launch-arasaka-greeter";
+        };
         devShells.default = pkgs.mkShell {
           buildInputs = [
             (ags.packages.${system}.default.override {

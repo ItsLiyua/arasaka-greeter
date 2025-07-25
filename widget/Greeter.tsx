@@ -1,5 +1,16 @@
 import app from "ags/gtk4/app";
+import Greet from "gi://AstalGreet?version=0.1";
 import Gtk from "gi://Gtk?version=4.0";
+
+function login(username: string, password: string, cmd: string) {
+  Greet.login(username, password, cmd, (_, res) => {
+    try {
+      Greet.login_finish(res);
+    } catch (err) {
+      printerr(err);
+    }
+  });
+}
 
 export default function Greeter() {
   const win = new Gtk.Window({
@@ -8,28 +19,21 @@ export default function Greeter() {
     cssClasses: ["greeter"],
     application: app,
     child: (
-      <box orientation={Gtk.Orientation.HORIZONTAL} halign={Gtk.Align.CENTER}>
-        <box hexpand />
-        <box orientation={Gtk.Orientation.VERTICAL} valign={Gtk.Align.CENTER}>
-          <box vexpand />
-          <box
-            cssClasses={["user-input"]}
-            orientation={Gtk.Orientation.HORIZONTAL}
-          >
-            <label label="Username" />
-            <entry placeholderText="Username" />
-          </box>
-          <box
-            cssClasses={["user-password"]}
-            orientation={Gtk.Orientation.HORIZONTAL}
-          >
-            <label label="Password" />
-            <entry placeholderText="Password" />
-          </box>
-          <box hexpand />
+      <centerbox orientation={Gtk.Orientation.HORIZONTAL}>
+        <label $type="start" label="Image thingy" />
+        <box $type="center" orientation={Gtk.Orientation.HORIZONTAL}>
+          <label label="logo" />
+          <centerbox orientation={Gtk.Orientation.VERTICAL}>
+            <box $type="center" orientation={Gtk.Orientation.VERTICAL}>
+              <entry placeholderText="Authorized User" />
+              <entry placeholderText="Password" />
+            </box>
+          </centerbox>
         </box>
-        <box vexpand />
-      </box>
+        <centerbox $type="end" orientation={Gtk.Orientation.VERTICAL}>
+          <label $type="end" label="logo stuff" />
+        </centerbox>
+      </centerbox>
     ),
   });
   win.show();
