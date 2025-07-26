@@ -36,7 +36,17 @@
           enable = true;
           settings = {
             inherit (settings) user;
-            command = ''${self.packages.${pkgs.system}.default}/bin/launch-arasaka-greeter ${if settings.defaultProperties.username != null then --user settings.defaultProperties.username else ""} ${if settings.defaultProperties.command != null then --cmd settings.defaultProperties.command else ""}'';
+            command = ''${self.packages.${pkgs.system}.default}/bin/launch-arasaka-greeter ${
+              if settings.defaultProperties.username != null then
+                "--user ${settings.defaultProperties.username}"
+              else
+                ""
+            } ${
+              if settings.defaultProperties.command != null then
+                "--cmd ${settings.defaultProperties.command}"
+              else
+                ""
+            }'';
           };
         };
       };
