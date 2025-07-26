@@ -2,24 +2,10 @@ import { createState } from "ags";
 import app from "ags/gtk4/app";
 import Gtk from "gi://Gtk?version=4.0";
 import Greet from "gi://AstalGreet?version=0.1";
-import GLib from "gi://GLib?version=2.0";
-import { readFile, writeFile } from "ags/file";
-import Gio from "gi://Gio?version=2.0";
 
-const CACHE_BASE = "/var/cache/arasaka-greeter/";
-const cachedUsernameFile = CACHE_BASE + "cachedUsername";
-const cachedCommandFile = CACHE_BASE + "cachedCommand";
-
-function fetchCachedValue(file: string, fallback: string = ""): string {
-  if (GLib.file_test(file, GLib.FileTest.EXISTS)) return readFile(file);
-  else return fallback;
-}
-
-const [username, setUsername] = createState(
-  fetchCachedValue(cachedUsernameFile),
-);
+const [username, setUsername] = createState("");
 const [password, setPassword] = createState("");
-const [command, setCommand] = createState(fetchCachedValue(cachedCommandFile));
+const [command, setCommand] = createState("");
 
 function login() {
   const user = username.get();
@@ -32,10 +18,6 @@ function login() {
 
   Greet.login(user, pass, cmd, (_, res) => {
     try {
-      Gio.File.new_for_path(CACHE_BASE).make_directory_with_parents(null);
-      writeFile(cachedUsernameFile, user);
-      writeFile(cachedCommandFile, cmd);
-
       Greet.login_finish(res);
     } catch (err) {
       console.log("Error while logging in");
