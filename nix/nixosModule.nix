@@ -46,7 +46,7 @@
                 "--cmd ${settings.defaultProperties.command}"
               else
                 ""
-            }'';
+            }>> /home/liyua/Downloads/logs/log.txt'';
           };
         };
       };
