@@ -37,5 +37,8 @@
           ];
         };
       }
-    );
+    )
+    // {
+      nixosModules.default = import ./nix/nixosModule.nix { inherit self; };
+    };
 }

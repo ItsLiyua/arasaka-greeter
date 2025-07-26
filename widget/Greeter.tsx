@@ -44,7 +44,15 @@ function login() {
   });
 }
 
-export default function Greeter() {
+export default function Greeter(
+  initialUser: string | null = null,
+  initialCommand: string | null = null,
+) {
+  if (initialUser != null) setUsername(initialUser);
+  if (initialCommand != null) {
+    console.log("test");
+    setCommand(initialCommand);
+  } else console.log("test2");
   const win = new Gtk.Window({
     visible: true,
     name: "greeter",

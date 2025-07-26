@@ -1,3 +1,3 @@
 #!{BASH}/bin/bash
-{WESTON}/bin/weston -c {WESTON_CONFIG}
+{CAGE}/bin/cage -ds -- {GREETER} $@
 
