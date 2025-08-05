@@ -19,6 +19,7 @@ function login() {
   Greet.login(user, pass, cmd, (_, res) => {
     try {
       Greet.login_finish(res);
+      app.quit();
     } catch (err) {
       console.log("Error while logging in");
       printerr(err);

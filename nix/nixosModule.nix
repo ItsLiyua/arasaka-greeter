@@ -34,7 +34,7 @@
       lib.mkIf enable {
         services.greetd = {
           enable = true;
-          settings = {
+          settings.default_session = {
             inherit (settings) user;
             command = ''${self.packages.${pkgs.system}.default}/bin/launch-arasaka-greeter ${
               if settings.defaultProperties.username != null then
@@ -46,7 +46,7 @@
                 "--cmd ${settings.defaultProperties.command}"
               else
                 ""
-            }>> /home/liyua/Downloads/logs/log.txt'';
+            }'';
           };
         };
       };

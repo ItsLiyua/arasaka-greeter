@@ -25,6 +25,7 @@ app.start({
     }
     if (parsedArgs != args.length) {
       console.log("Use --help for help!");
+      app.quit();
       return;
     }
 
