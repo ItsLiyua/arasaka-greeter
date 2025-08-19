@@ -23,6 +23,7 @@ stdenv.mkDerivation rec {
   ];
 
   nativeBuildInputs = [
+    bash
     wrapGAppsHook
     gobject-introspection
     ags.packages.${system}.default
@@ -43,7 +44,10 @@ stdenv.mkDerivation rec {
     ags bundle $src/app.ts $out/bin/${pname} -d "SRC='$out/share/arasaka-greeter/ags'"
 
     cp $src/resources/launch-arasaka-greeter $out/bin/launch-arasaka-greeter
-    substituteInPlace $out/bin/launch-arasaka-greeter --replace "{BASH}" "${bash}" --replace "{CAGE}" "${cage}" --replace "{GREETER}" "$out/bin/arasaka-greeter"
+    substituteInPlace $out/bin/launch-arasaka-greeter --replace-fail "{BASH}" "${bash}" --replace-fail "{CAGE}" "${cage}" --replace-fail "{GREETER}" "$out/bin/arasaka-greeter"
+
+    mkdir -p $out/share/arasaka-greeter
+    cp -r $src/assets $out/share/arasaka-greeter/assets
 
     runHook postInstall
   '';

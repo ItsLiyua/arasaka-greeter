@@ -1,7 +1,10 @@
-import { createState } from "ags";
+import { createState, With } from "ags";
 import app from "ags/gtk4/app";
 import Gtk from "gi://Gtk?version=4.0";
 import Greet from "gi://AstalGreet?version=0.1";
+import GLib from "gi://GLib?version=2.0";
+import { exec } from "ags/process";
+import { writeFile } from "ags/file";
 
 const [username, setUsername] = createState("");
 const [password, setPassword] = createState("");
@@ -32,10 +35,9 @@ export default function Greeter(
   initialCommand: string | null = null,
 ) {
   if (initialUser != null) setUsername(initialUser);
-  if (initialCommand != null) {
-    console.log("test");
-    setCommand(initialCommand);
-  } else console.log("test2");
+  if (initialCommand != null) setCommand(initialCommand);
+  console.log(exec(["bash", "-c", "pwd"]));
+
   const win = new Gtk.Window({
     visible: true,
     name: "greeter",
@@ -43,9 +45,12 @@ export default function Greeter(
     application: app,
     child: (
       <centerbox orientation={Gtk.Orientation.HORIZONTAL}>
-        <label $type="start" label="Image thingy" />
+        <box $type="start" orientation={Gtk.Orientation.HORIZONTAL}>
+          <box vexpand widthRequest={20} css="background: red" />
+          <label label={exec(["bash", "-c", "uname -srm"])} />
+        </box>
         <box $type="center" orientation={Gtk.Orientation.HORIZONTAL}>
-          <label label="logo" />
+          <image file="/home/liyua/Documents/arasaka-greeter/assets/logo1.png" />
           <centerbox orientation={Gtk.Orientation.VERTICAL}>
             <box $type="center" orientation={Gtk.Orientation.VERTICAL}>
               <entry
